@@ -1,0 +1,283 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 5",
+		"_postman_id": "45774ee8-9d02-ccc6-e634-f8e30bef98ea",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: Create Port List",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}//mgmt/cm/firewall/working-config/port-lists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"ports\": [\r\n                {\r\n                    \"port\": \"80\",\r\n                    \"description\": \"HTTP\"\r\n                },\r\n                {\r\n                    \"port\": \"443\",\r\n                    \"description\": \"HTTPS\"\r\n                }\r\n            ],\r\n\t\t\t\"partition\": \"Common\",\r\n                       \t\"name\": \"API__HTTP_HTTPS\"\r\n }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Create Address List",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/address-lists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\r\n            \"addresses\": [\r\n                {\r\n                    \"address\": \"10.128.10.0/24\",\r\n                    \"description\": \"Internal Network\"\r\n                },\r\n                {\r\n                    \"address\": \"172.16.16.99\",\r\n                    \"description\": \"Internal Client 2\"\r\n                }\r\n            ],\r\n            \"partition\": \"Common\",\r\n            \"name\": \"API_Trusted_Clients\"\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Create New Rule List",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}//mgmt/cm/firewall/working-config/rule-lists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partition\": \"Common\",\"name\": \"API_Rule_List_Allow_Trusted\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Create New Rule",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}//mgmt/cm/firewall/working-config/rule-lists",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partition\": \"Common\",\"name\": \"API_Rule_List_Allow_Trusted\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Create New Policy",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/policies",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"partition\": \"Common\",\"name\": \"API_Policy_Forward\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6: Create New Policy Rule List Reference",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/policies/{{AFM_Policy_ID}}/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"state\": \"enabled\",\r\n            \"ruleListReference\": {\r\n                \"link\": \"https://localhost/mgmt/cm/firewall/working-config/rule-lists/{{AFM_Rule_ID}}\"\r\n            },\r\n            \"name\": \"Reference_To_API_Rule_Allowed_Trusted\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Create Drop Rule in Policy",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/policies/{{AFM_Policy_ID}}/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n            \"action\": \"drop\",\r\n            \"log\": true,\r\n            \"protocol\": \"any\",\r\n            \"state\": \"enabled\",\r\n            \"name\": \"API_Rule_Drop_Everything_Else\",\r\n            \"evalOrder\": \"9999999\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 8: Get bigip02 Contexts",
+			"request": {
+				"url": {
+					"raw": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/firewalls?$filter=('firewallType'+eq+'route-domain')",
+					"protocol": "https",
+					"host": [
+						"{{bigiq01-mgmt}}"
+					],
+					"path": [
+						"mgmt",
+						"cm",
+						"firewall",
+						"working-config",
+						"firewalls"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "('firewallType'+eq+'route-domain')",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n            \"action\": \"drop\",\r\n            \"log\": true,\r\n            \"protocol\": \"any\",\r\n            \"state\": \"enabled\",\r\n            \"name\": \"API_Rule_Drop_Everything_Else\",\r\n            \"evalOrder\": \"9999999\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 9: Apply Policy to RD0",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/working-config/firewalls/{{bigip02-rd0id}}",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n   \r\n    \"firewallType\": \"route-domain\",\r\n     \"routeDomainId\": \"0\",\r\n     \"enforcedPolicyReference\": {\r\n        \"link\": \"https://localhost/mgmt/cm/firewall/working-config/policies/{{AFM_Policy_ID}}\"\r\n    }\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 10: Deploy Policy to bigip02",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/tasks/deploy-configuration",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"createChildTasks\": true,\r\n    \"description\": \"API Policy Deploy\",\r\n    \"deviceReferences\": [\r\n        {\r\n            \"link\": \"https://localhost/mgmt/shared/resolver/device-groups/cm-firewall-allFirewallDevices/devices/{{bigip02-machineid}}\"\r\n        }\r\n    ],\r\n    \"name\": \"API Policy Deploy\",\r\n    \"skipDistribution\": false\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

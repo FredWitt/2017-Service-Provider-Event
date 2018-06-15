@@ -1,0 +1,411 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 1b",
+		"_postman_id": "c4649790-64be-b918-9efd-7aa583248675",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: View Existing Rule Lists",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Create New Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"web_rule_list\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Add HTTP Rule  to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/web_rule_list/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"allow_http\",\r\n      \"place-after\": \"first\",\r\n      \"action\": \"accept\",\r\n      \"ipProtocol\": \"tcp\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\",\r\n      \"destination\": {\r\n        \"ports\": [\r\n          {\r\n            \"name\": \"80\"\r\n          }\r\n        ]\r\n      },\r\n      \"source\": {\r\n        \"identity\": {}\r\n      }\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Add HTTPS Rule  to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/web_rule_list/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"allow_https\",\r\n      \"place-after\": \"first\",\r\n      \"action\": \"accept\",\r\n      \"ipProtocol\": \"tcp\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\",\r\n      \"destination\": {\r\n        \"ports\": [\r\n          {\r\n            \"name\": \"443\"\r\n          }\r\n        ]\r\n      },\r\n      \"source\": {\r\n        \"identity\": {}\r\n      }\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Add Reject 10 Rule to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/web_rule_list/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"reject_10_0_10_0\",\r\n      \"place-after\": \"last\",\r\n      \"action\": \"reject\",\r\n      \"ipProtocol\": \"any\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\",\r\n       \"source\": {\r\n        \"identity\": {},\r\n        \"addresses\": [\r\n          {\r\n            \"name\": \"10.0.10.0/24\"\r\n          }\r\n        ]\r\n      }\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6: Add Reject All Rule to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/web_rule_list/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"reject_all\",\r\n      \"place-after\": \"last\",\r\n      \"action\": \"reject\",\r\n      \"ipProtocol\": \"any\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\"\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Verify Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/web_rule_list/rules",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 8: Create New Rule List (common)",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"common_services_rule_list\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 9: Add FTP Rule  to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/common_services_rule_list/rules/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"allow_ftp\",\r\n      \"place-after\": \"first\",\r\n      \"action\": \"accept\",\r\n      \"ipProtocol\": \"tcp\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\",\r\n      \"destination\": {\r\n        \"ports\": [\r\n          {\r\n            \"name\": \"20-21\"\r\n          }\r\n        ]\r\n      },\r\n      \"source\": {\r\n        \"identity\": {}\r\n      }\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 10: Add SSH Rule  to New  Rule List",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/common_services_rule_list/rules/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\r\n      \"name\": \"allow_ssh\",\r\n      \"place-after\": \"first\",\r\n      \"action\": \"accept\",\r\n      \"ipProtocol\": \"tcp\",\r\n      \"log\": \"yes\",\r\n      \"status\": \"enabled\",\r\n      \"destination\": {\r\n        \"ports\": [\r\n          {\r\n            \"name\": \"22\"\r\n          }\r\n        ]\r\n      },\r\n      \"source\": {\r\n        \"identity\": {}\r\n      }\r\n    }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 11: Verify Rule List (common)",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/rule-list/common_services_rule_list/rules",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 12: Add New  Policy",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/policy/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n    {\"name\": \"rd_0_policy\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 13: Add web_rule to Policy",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/policy/rd_0_policy/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{ \"name\": \"web_policy\",\r\n  \"place-before\": \"first\",\r\n  \"status\": \"enabled\",\r\n  \"ruleList\": \"/Common/web_rule_list\"\r\n \r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 14: Add common_rule to Policy",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/policy/rd_0_policy/rules",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{ \"name\": \"allow_common_services\",\r\n  \"place-before\": \"first\",\r\n  \"status\": \"enabled\",\r\n  \"ruleList\": \"/Common/common_services_rule_list\"\r\n \r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 15: Verify Policy",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/security/firewall/policy/rd_0_policy/rules",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 16: Apply Policy to RD0",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/net/route-domain/0",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"0\",\r\n \"fwEnforcedPolicy\": \"/Common/rd_0_policy\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

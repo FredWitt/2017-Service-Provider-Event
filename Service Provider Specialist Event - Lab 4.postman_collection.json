@@ -1,0 +1,133 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 4",
+		"_postman_id": "326d638a-e495-1266-ad62-645a5fa413c9",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1:  Establis BIG-IP02 device trust with BIG-IQ",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/global/tasks/device-trust",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"10.128.1.245\",\r\n    \"clusterName\": \"\",\r\n    \"password\": \"admin\",\r\n    \"useBigiqSync\": false,\r\n    \"userName\": \"admin\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2:  Verify Trust Established",
+			"request": {
+				"url": {
+					"raw": "https://{{bigiq01-mgmt}}//mgmt/cm/system/machineid-resolver?$filter=('address'+eq+'10.128.1.132')",
+					"protocol": "https",
+					"host": [
+						"{{bigiq01-mgmt}}"
+					],
+					"path": [
+						"",
+						"mgmt",
+						"cm",
+						"system",
+						"machineid-resolver"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "('address'+eq+'10.128.1.132')",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"10.128.1.245\",\r\n    \"clusterName\": \"\",\r\n    \"password\": \"admin\",\r\n    \"useBigiqSync\": false,\r\n    \"userName\": \"admin\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3:  Discover BIG-IP02 Components",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/firewall/tasks/declare-mgmt-authority",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"deviceReference\": {\r\n        \"link\": \"https://localhost/mgmt/cm/system/machineid-resolver/{{bigip02-machineid}}\"\r\n    },\r\n    \"moduleList\": [\r\n        {\r\n            \"module\": \"adc_core\"\r\n        },\r\n         {\r\n            \"module\": \"firewall\"\r\n        },\r\n        {\r\n            \"module\": \"security_shared\"\r\n        }\r\n    ],\r\n    \"status\": \"STARTED\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Enable BIG-IP02 Stats Collcection",
+			"request": {
+				"url": "https://{{bigiq01-mgmt}}/mgmt/cm/shared/stats-mgmt/agent-install-and-config-task",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"targetDeviceReference\":{\r\n\t\t\"link\": \"https://localhost/mgmt/cm/system/machineid-resolver/{{bigip02-machineid}}\"}, \"enabled\":true,\"modules\":[{\"module\":\"DEVICE\"},{\"module\":\"DNS\"},{\"module\":\"LTM\"}]}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

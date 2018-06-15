@@ -1,0 +1,119 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 2",
+		"_postman_id": "cdd37d0f-7643-9e9b-ab36-72b2060db120",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: Verify Permitted Packet Test",
+			"request": {
+				"url": {
+					"raw": "https://{{bigip01-mgmt}}/mgmt/tm/net/packet-tester/security/stats?expandSubcollections=true&options=protocol,tcp,ttl,255,check-staged,disable,trigger-log,disable,dst-addr,10.128.10.223,dst-port,22,src-addr,1.2.3.4,src-port,9999,src-vlan,%2FCommon%2Fexternal,syn",
+					"protocol": "https",
+					"host": [
+						"{{bigip01-mgmt}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"net",
+						"packet-tester",
+						"security",
+						"stats"
+					],
+					"query": [
+						{
+							"key": "expandSubcollections",
+							"value": "true",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "options",
+							"value": "protocol,tcp,ttl,255,check-staged,disable,trigger-log,disable,dst-addr,10.128.10.223,dst-port,22,src-addr,1.2.3.4,src-port,9999,src-vlan,%2FCommon%2Fexternal,syn",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Verify Rejected Packet Test",
+			"request": {
+				"url": {
+					"raw": "https://{{bigip01-mgmt}}/mgmt/tm/net/packet-tester/security/stats?expandSubcollections=true&options=protocol,tcp,ttl,255,check-staged,disable,trigger-log,disable,dst-addr,10.128.10.223,dst-port,22,src-addr,10.0.10.22,src-port,2222,src-vlan,%2FCommon%2Fexternal,syn",
+					"protocol": "https",
+					"host": [
+						"{{bigip01-mgmt}}"
+					],
+					"path": [
+						"mgmt",
+						"tm",
+						"net",
+						"packet-tester",
+						"security",
+						"stats"
+					],
+					"query": [
+						{
+							"key": "expandSubcollections",
+							"value": "true",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "options",
+							"value": "protocol,tcp,ttl,255,check-staged,disable,trigger-log,disable,dst-addr,10.128.10.223,dst-port,22,src-addr,10.0.10.22,src-port,2222,src-vlan,%2FCommon%2Fexternal,syn",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

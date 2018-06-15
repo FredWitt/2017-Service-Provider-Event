@@ -1,0 +1,311 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 1a",
+		"_postman_id": "405b79dd-1a88-76e0-2bb3-4c8a79a23cff",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1a: Get Current Pools - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 1b: Get Current Pools - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2a: Create New Pool - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2b: Create New Pool - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"wildcard_vs_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:0\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:0\",\"description\":\"member2\"},\r\n{\"name\":\"10.128.20.170:0\",\"description\":\"member3\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3a: Get New Pool Member Stats - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/pool/wildcard_vs_pool/members/stats",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3b: Get New Pool Member Stats - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/pool/wildcard_vs_pool/members/stats",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4a: Get Current Virutal Servers - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4b: Get Current Virutal Servers - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5a:  Create New Virutal Server - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\":\"wildcard_vs\",\r\n \"destination\":\"10.128.10.223:0\",\r\n \"mask\":\"255.255.255.255\",\r\n \"pool\":\"/Common/wildcard_vs_pool\",\r\n \"sourceAddressTranslation\":{\"type\":\"automap\"}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5b:  Create New Virutal Server - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\":\"wildcard_vs\",\r\n \"destination\":\"10.128.10.224:0\",\r\n \"mask\":\"255.255.255.255\",\r\n \"pool\":\"/Common/wildcard_vs_pool\",\r\n \"sourceAddressTranslation\":{\"type\":\"automap\"}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6a: Get New Virtual Server Stats - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/virtual/wildcard_vs/stats",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6b: Get New Virtual Server Stats - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/virtual/wildcard_vs/stats",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"baseRegKey\":\"\",\n    \"addOnKeys\":[],\n    \"automaticActivation\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

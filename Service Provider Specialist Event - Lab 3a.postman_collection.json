@@ -1,0 +1,111 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Service Provider Specialist Event - Lab 3a",
+		"_postman_id": "e4a01567-294d-f2db-13f5-6160b433a30e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1a: Create New Pool - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"http_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:80\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:80\",\"description\":\"member2\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 1b: Create New Pool - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/pool",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"http_pool\",\r\n\"monitor\": \"/Common/gateway_icmp\",\r\n\"members\":\r\n [ \r\n{\"name\":\"10.128.20.150:80\",\"description\":\"member1\"}, \r\n{\"name\":\"10.128.20.160:80\",\"description\":\"member2\"}\r\n ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2a:  Create New Virutal Server - BIG-IP01",
+			"request": {
+				"url": "https://{{bigip01-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\":\"http_vs\",\r\n \"destination\":\"10.128.10.201:80\",\r\n \"mask\":\"255.255.255.255\",\r\n \"pool\":\"/Common/http_pool\",\r\n \"sourceAddressTranslation\":{\"type\":\"automap\"}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2b:  Create New Virutal Server - BIG-IP02",
+			"request": {
+				"url": "https://{{bigip02-mgmt}}/mgmt/tm/ltm/virtual",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\":\"http_vs\",\r\n \"destination\":\"10.128.10.202:80\",\r\n \"mask\":\"255.255.255.255\",\r\n \"pool\":\"/Common/http_pool\",\r\n \"sourceAddressTranslation\":{\"type\":\"automap\"}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
