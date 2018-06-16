@@ -1,0 +1,106 @@
+{
+  "id": "bf31e3a2-ee8b-4c43-8c3d-2914f6b49668",
+  "values": [
+    {
+      "enabled": true,
+      "key": "big_ip_a_mgmt",
+      "value": "10.128.1.101",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "iworkflow_mgmt",
+      "value": "10.128.1.100",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "iworkflow_auth_token",
+      "value": "DOJSB2VZPVUX3TB22EYNIZFTMD",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "big_ip_a_auth_token",
+      "value": "2JZE4FQF3SDWXVPGC463RWRH65",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "iworkflow_big_ip_a_uuid",
+      "value": "abd61fc3-f6c1-4002-9fe4-3dad05026af6",
+      "type": "text"
+    },
+    {
+      "enabled": true,
+      "key": "iworkflow_connector_uuid",
+      "value": "13c08ea1-adaa-49ee-90d2-3464653a13c1",
+      "type": "text"
+    },
+    {
+      "key": "bigip01-mgmt",
+      "value": "10.128.1.245",
+      "enabled": true
+    },
+    {
+      "key": "bigip02-mgmt",
+      "value": "192.168.1.99",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "bigiq01-mgmt",
+      "value": "10.128.1.129",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "bigip02-machineid",
+      "value": "fbd16236-5b61-4f5d-a948-a8f3cf7d6e36",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "AFM_Rule_ID",
+      "value": "be898571-4745-3158-8f35-abf270bd0402",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "AFM_Address_ID",
+      "value": "c86ff6ce-b71c-33b2-af8b-07ba5a253b4b",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "AFM_Port_ID",
+      "value": "53b30cf3-2ca1-3c2e-ae82-62a7335c8a94",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "AFM_Policy_ID",
+      "value": "5c4d38bc-81d5-31f8-acb0-a7fc9b702551",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "bigip02-rd0id",
+      "value": "7b12dbfb-acda-38f0-bf24-1d479dd17494",
+      "description": "",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "name": "My Workspace Globals",
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2018-06-16T10:13:47.867Z",
+  "_postman_exported_using": "Postman/6.1.3"
+}
